@@ -1,6 +1,6 @@
 **Usage:**
-Create a virtual env and activate it:
-and then install the dependencies using:
+Create a virtual env and activate it and then install the dependencies using:
+
 pip3 install -r requirments.txt
 
 **Run the script:**
