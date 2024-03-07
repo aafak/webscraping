@@ -5,7 +5,7 @@ pip3 install -r requirments.txt
 
 **Run the script:**
 
-(web-scrap) PS D:\Web-scrapping> python .\scrape_data_json.py
+(web-scrap) PS D:\Web-scrapping> python .\scrap_data_json.py
 
 Fetching data from URL: https://www.amazon.in/s?k=samsung+mobile&crid=142CNLJ4QPRV5&sprefix=Sam%2Caps%2C232&ref=nb_sb_ss_ts-doa-p_2_3
 response: <Response [200]>
