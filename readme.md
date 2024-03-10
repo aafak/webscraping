@@ -1,11 +1,12 @@
 **Usage:**
-Create a virtual env and activate it:
-and then install the dependencies using:
+Create a virtual env and activate it and then install the dependencies using:
+
 pip3 install -r requirments.txt
 
 **Run the script:**
 
-(web-scrap) PS D:\Web-scrapping> python .\scrape_data_json.py
+(web-scrap) PS D:\Web-scrapping> python .\scrap_data_json.py
+
 Fetching data from URL: https://www.amazon.in/s?k=samsung+mobile&crid=142CNLJ4QPRV5&sprefix=Sam%2Caps%2C232&ref=nb_sb_ss_ts-doa-p_2_3
 response: <Response [200]>
 Fetching data from URL: https://www.amazon.in/sspa/click?ie=UTF8&spc=MTo2ODQ0NjI4NTcxODUxMDY2OjE3MDk3ODIwMDM6c3BfYXRmOjMwMDExNzU0NzQ4OTIzMjo6MDo6&url=%2Frealme-Feather-Segment-Charging-Slimmest%2Fdp%2FB0CKN56PQ8%2Fref%3Dsr_1_1%3Fcrid%3D142CNLJ4QPRV5%26dib%3DeyJ2IjoiMSJ9.oP_PsXbsOXFTjC446XhxRj6n0PnuxVheEhFBBRJ1sNGEIagPj-lvmRaeZTaXgvt4TuJ2Bo-FvCWX4yJYaaD-eDyIinYGzfr4XT2mW3Jd228NiWEvI0WkqaZ7oCM4wHAhxa-BY8KunF4BqdRPyAjyXgcjMDNYplcDt7tC6MyTYuMhHCmeLnOjlhr-iz-Jtv7gBIybCB4kDlBRMU73nx0ETFBKOTxkJHQa1yT70bM502Q.CmHUQL2PlOPyuMPnC9P3oxUdeoJ8cPfcBAxEU-1AzNQ%26dib_tag%3Dse%26keywords%3Dsamsung%2Bmobile%26qid%3D1709782003%26sprefix%3DSam%252Caps%252C232%26sr%3D8-1-spons%26sp_csd%3Dd2lkZ2V0TmFtZT1zcF9hdGY%26psc%3D1
