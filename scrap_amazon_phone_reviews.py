@@ -33,6 +33,16 @@ HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
 }
 
+
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+
+cookie = "session-id=261-8411119-7687861; session-id-time=2082787201l; i18n-prefs=INR; ubid-acbin=262-8727450-4461710; lc-acbin=en_IN; session-token=MFBKNDEi08pX5ftbnb9foFr8nyuArM6ICgVxmLTDKhMKtUiQ5BuRxUPq1+zm4gseBApVWH/77AL/O3oLqwPJJu7cjG0SZnOYMW2cs4F8jPYPn1PPFvtTy0zssHWiDqQoxpiow4GbCWXkvXMJGEYmcZaQ5eU8z6NaMuJ3DaV6KGxcEnmOFRWIYs/ws8c1+YRm+hqbx5ymgJtwa3DjTvcifgjQ07ynKBXZ3ZDPx0lfPyFRiLQv6X17ZTaDgrm7Rsi8uPT2eLf1DZBglMQLfddUkxPl1PkPasH2d4zIFS7YCx17QMGi2h2hYta3OqhA7xVntDXenp13dQv3Sg6j+qwKnIUWkdz7Snvs; csm-hit=tb:N6S3R8EK5WP8CDMV2G12+sa-8K7ZDNGRQV062QC6JSJK-TMQQP83EXKCY3VZABFXQ|1710571377161&t:1710571377161&adb:adblk_no"
+HEADERS = ({'User-Agent': USER_AGENT,
+            'Accept-Language': 'en-US, en;q=0.5',
+            'Cookie': cookie,
+            'Sec-Ch-Ua': '"Chromium";v="122", "Not(A:Brand";v="24", "Google Chrome";v="122"'
+
+            })
 # Function to extract Product Title
 def get_title(soup):
     try:
@@ -152,66 +162,55 @@ if __name__ == '__main__':
     URL = AMAZON_BASE_URL +"s?k="+ search_query
 
     # # HTTP Request
-    # print(f"Fetching data from URL: {URL}")
-    # response = requests.get(URL, headers=HEADERS)
-    # print(f"response: {response}")
-    #
-    # product_names = []
-    # response = getAmazonSearch(search_query)
-    # soup = BeautifulSoup(response.content, "html.parser")
-    # count = 0
-    # for i in soup.findAll("span", {
-    #     'class': 'a-size-base-plus a-color-base a-text-normal'}):  # the tag which is common for all the names of products
-    #     product_names.append(i.text)  # adding the product names to the list
-    #     if count > 2:
-    #         break
-    #     count +=1
-    #
-    # print(f"product_names: {product_names}")
+    print(f"Fetching data from URL: {URL}")
+    response = requests.get(URL, headers=HEADERS)
+    print(f"response: {response}")
 
-    # data_asin = []
-    # response = getAmazonSearch(search_query)
-    # count = 0
-    # # "sg-col-4-of-24 sg-col-4-of-12 s-result-item s-asin sg-col-4-of-16 sg-col s-widget-spacing-small sg-col-4-of-20"
-    # soup = BeautifulSoup(response.content, "html.parser")
-    # for i in soup.findAll("div", {
-    #     'class': "sg-col-4-of-24 sg-col-4-of-12 s-result-item s-asin sg-col-4-of-16 sg-col s-widget-spacing-small sg-col-4-of-20"}):
-    #     data_asin.append(i['data-asin'])
-    #     if count > 2:
-    #         break
-    #     count += 1
-    #
-    # link = []
-    # count = 0
-    # for i in range(len(data_asin)):
-    #     response = Searchasin(data_asin[i])
-    #     soup = BeautifulSoup(response.content, "html.parser")
-    #     for i in soup.findAll("a", {'data-hook': "see-all-reviews-link-foot"}):
-    #         link.append(i['href'])
-    #         if count > 2:
-    #             break
-    #         count += 1
-    #
-    # print(f"links: {link}")
+    product_names = []
+    response = getAmazonSearch(search_query)
+    soup = BeautifulSoup(response.content, "html.parser")
+    count = 0
+    for i in soup.findAll("span", {
+        'class': 'a-size-base-plus a-color-base a-text-normal'}):  # the tag which is common for all the names of products
+        product_names.append(i.text)  # adding the product names to the list
+        if count > 2:
+            break
+        count +=1
 
+    print(f"product_names: {product_names}")
 
-    link =  ['/Nike-Revolution-Running-Shoes-Black/product-reviews/B0C8THZMZW/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&reviewerType=all_reviews', '/Nike-Revolution-Running-Shoes-Black/product-reviews/B0C8THZMZW/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&reviewerType=all_reviews', '/Nike-Full-Force-Shoes-White/product-reviews/B0CLYWL8QB/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&reviewerType=all_reviews', '/Nike-Downshifter-White-DK-Grey-Pure-Platinum/product-reviews/B0B56YYS3T/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&reviewerType=all_reviews', '/Nike-Downshifter-11-Platinum-White-Wolf-GREY-CW3411-004-7UK/product-reviews/B098PCBSDM/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&reviewerType=all_reviews']
+    data_asin = []
+    response = getAmazonSearch(search_query)
+    count = 0
+    # "sg-col-4-of-24 sg-col-4-of-12 s-result-item s-asin sg-col-4-of-16 sg-col s-widget-spacing-small sg-col-4-of-20"
+    soup = BeautifulSoup(response.content, "html.parser")
+    for i in soup.findAll("div", {
+        'class': "sg-col-4-of-24 sg-col-4-of-12 s-result-item s-asin sg-col-4-of-16 sg-col s-widget-spacing-small sg-col-4-of-20"}):
+        data_asin.append(i['data-asin'])
+        if count > 2:
+            break
+        count += 1
+
+    link = []
+    count = 0
+    for i in range(len(data_asin)):
+        response = Searchasin(data_asin[i])
+        soup = BeautifulSoup(response.content, "html.parser")
+        for i in soup.findAll("a", {'data-hook': "see-all-reviews-link-foot"}):
+            link.append(i['href'])
+            if count > 2:
+                break
+            count += 1
+
+    print(f"links: {link}")
+
 
     reviews = []
-    #for j in range(len(link)):
-    for j in range(2):
-        for k in range(1):
-            #review_link = "Nike-Revolution-Running-Shoes-Black/product-reviews/B0C8THZMZW/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&reviewerType=all_reviews"
-            review_link = "Redmi-Arctic-Storage-Dimensity-Slimmest/product-reviews/B0CQPGG8KG/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&reviewerType=all_reviews"
-            #review_link = "Redmi-Arctic-Storage-Dimensity-Slimmest/product-reviews/B0CQPGG8KG/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&pageNumber=2"
-
-            #review_link = "Redmi-Arctic-Storage-Dimensity-Slimmest/product-reviews/B0CQPGG8KG/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&reviewerType=all_reviews&pageNumber=2"
-
-            # response = Searchreviews(link[j] + '&pageNumber=' + str(k))
-            response = Searchreviews(review_link)
+    for j in range(len(link)):
+        for k in range(5):
+            response = Searchreviews(link[j] + '&pageNumber=' + str(k))
             print(response)
 
-            #print(f"review response: {response.content}")
             soup = BeautifulSoup(response.content, "html.parser")
             #print(soup)
             #rating = get_rating(soup)
@@ -219,12 +218,9 @@ if __name__ == '__main__':
             #"average-star-rating"
             #for i in soup.find_all("span", {'class': "a-size-base review-text review-text-content"}):
             #for i in soup.find_all("i", {"data-hook":"average-star-rating"}):
-
-            for i in soup.findAll("span", {'data-hook': "review-body"}):
-                #print(f"i: {i}")
+            user_reviews = soup.find_all("span", {'data-hook': "review-body"})
+            print(f"Reviews# {len(user_reviews)}")
+            for i in user_reviews:
                 reviews.append(i.text)
-                #break
-        break
-        print(reviews)
 
-    print(reviews)
+    print(f"Total reviews: {len(reviews)}")
