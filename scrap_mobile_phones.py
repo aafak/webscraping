@@ -5,33 +5,6 @@ import numpy as np
 
 
 AMAZON_BASE_URL = "https://www.amazon.in/"
-USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
-#HEADERS = ({'User-Agent': "", 'Accept-Language': 'en-US, en;q=0.5'})
-
-HEADERS = {
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-    "Accept-Encoding": "gzip, deflate, br, zstd",
-    "Accept-Language": "en-US,en;q=0.9,hi;q=0.8",
-    "Sec-Ch-Ua": "\"Chromium\";v=\"122\", \"Not(A:Brand\";v=\"24\", \"Google Chrome\";v=\"122\"",
-    "Sec-Ch-Ua-Mobile": "?0",
-    "Sec-Ch-Ua-Platform": "\"Windows\"",
-    "Sec-Fetch-Dest": "document",
-    "Sec-Fetch-Mode": "navigate",
-    "Sec-Fetch-Site": "cross-site",
-    "Sec-Fetch-User": "?1",
-    "Upgrade-Insecure-Requests": "1",
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-    "X-Amzn-Trace-Id": "Root=1-65ed5e12-258e9ba70a89a6ac77f3b96b"
-  }
-
-HEADERS = {
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-    "Accept-Encoding": "gzip, deflate, br",
-    "Accept-Language": "en-US,en;q=0.9",
-    "Upgrade-Insecure-Requests": "1",
-    #"Referer": "https://www.google.com/",
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-}
 
 
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
@@ -133,6 +106,16 @@ def getAmazonSearch(search_query):
     else:
         return "Error"
 
+def getNextPageSearch(search_query):
+    url=AMAZON_BASE_URL + search_query
+    print(url)
+    page=requests.get(url,headers=HEADERS)
+    if page.status_code==200:
+        return page
+    else:
+        return "Error"
+
+
 def Searchasin(asin):
     url=AMAZON_BASE_URL + "dp/" + asin
     print(url)
@@ -151,76 +134,76 @@ def Searchreviews(review_link):
     else:
         return "Error"
 
+import  time
 if __name__ == '__main__':
+    #search_query = "samsung+mobile+phones"
+    search_query = "iphone+mobile+phones"
 
-    # add your user agent
-    # https://www.whatismybrowser.com/
+    data_asin = set()
+    total_page_count = None
+    page_count = 1
+    next_page_query = None
+    disabled_next_button = None
+    # while disabled_next_button is None:
+    #     page_query = next_page_query if next_page_query else search_query
+    #     response = getAmazonSearch(page_query)
+    #     print(response)
+    #     soup = BeautifulSoup(response.content, "html.parser")
+    #
+    #     for i in soup.findAll("div", {
+    #         'data-component-type': "s-search-result"}):
+    #         if i.get("data-asin"):
+    #             data_asin.add(i['data-asin'])
+    #     page_count += 1
+    #     next_page_query = search_query + "&page=" + str(page_count)
+    #     time.sleep(2)
+    #     if total_page_count is None:
+    #         total_items = soup.find("span", {"class": 's-pagination-item s-pagination-disabled'})
+    #         print(total_items.string.strip())
+    #         total_page_count = int(total_items.string.strip())
+    #     disabled_next_button = soup.find("span", {"class": "s-pagination-item s-pagination-next s-pagination-disabled"})
+    #     print(f"disabled_next_button: {disabled_next_button}")
+    #     print(data_asin)
+    #     if total_page_count and page_count > total_page_count:
+    #         break
+    #
+    # print(data_asin)
 
-    # The webpage URL
-    search_query = "nike+shoes+men"
-
-    URL = AMAZON_BASE_URL +"s?k="+ search_query
-
-    # # HTTP Request
-    print(f"Fetching data from URL: {URL}")
-    response = requests.get(URL, headers=HEADERS)
-    print(f"response: {response}")
-    # span class="s-pagination-item s-pagination-next s-pagination-disabled "
-    product_names = []
-    response = getAmazonSearch(search_query)
-    soup = BeautifulSoup(response.content, "html.parser")
-    count = 0
-    for i in soup.findAll("span", {
-        'class': 'a-size-base-plus a-color-base a-text-normal'}):  # the tag which is common for all the names of products
-        product_names.append(i.text)  # adding the product names to the list
-        if count > 2:
-            break
-        count +=1
-
-    print(f"product_names: {product_names}")
-
-    data_asin = []
-    response = getAmazonSearch(search_query)
-    count = 0
-    # "sg-col-4-of-24 sg-col-4-of-12 s-result-item s-asin sg-col-4-of-16 sg-col s-widget-spacing-small sg-col-4-of-20"
-    soup = BeautifulSoup(response.content, "html.parser")
-    for i in soup.findAll("div", {
-        'class': "sg-col-4-of-24 sg-col-4-of-12 s-result-item s-asin sg-col-4-of-16 sg-col s-widget-spacing-small sg-col-4-of-20"}):
-        data_asin.append(i['data-asin'])
-        if count > 2:
-            break
-        count += 1
-
+    #data_asin.add("B0C9QS5G2R")   #  10,110
+    #data_asin.add('B0CMCM52MB')  # 13 user review
+    data_asin.add("B0CQYMMP94")  # 221
     link = []
     count = 0
-    for i in range(len(data_asin)):
-        response = Searchasin(data_asin[i])
+    for pd in data_asin:
+        pd_user_reviews = list()
+        response = Searchasin(pd)
         soup = BeautifulSoup(response.content, "html.parser")
-        for i in soup.findAll("a", {'data-hook': "see-all-reviews-link-foot"}):
-            link.append(i['href'])
-            if count > 2:
-                break
-            count += 1
+        review_link = soup.find("a", {'data-hook': "see-all-reviews-link-foot"})
+        review_link_url = review_link.get("href")
+        print(f"review_link_url: {review_link_url}")
 
-    print(f"links: {link}")
+        review_count_info = soup.find("span", attrs={'id': 'acrCustomerReviewText'}).string.strip()
+        review_count = int(review_count_info.split(" ")[0])
+        print(f"review_count: {review_count}")
 
-
-    reviews = []
-    for j in range(len(link)):
-        for k in range(5):
-            response = Searchreviews(link[j] + '&pageNumber=' + str(k))
-            print(response)
-
+        review_disable_button = None
+        review_page_count = 1
+        while review_disable_button is None:
+            response = Searchreviews(review_link_url + '&pageNumber=' + str(review_page_count))
             soup = BeautifulSoup(response.content, "html.parser")
-            #print(soup)
-            #rating = get_rating(soup)
-            # a-size-base review-text review-text-content
-            #"average-star-rating"
-            #for i in soup.find_all("span", {'class': "a-size-base review-text review-text-content"}):
-            #for i in soup.find_all("i", {"data-hook":"average-star-rating"}):
+            page_reviews = []
             user_reviews = soup.find_all("span", {'data-hook': "review-body"})
-            print(f"Reviews# {len(user_reviews)}")
             for i in user_reviews:
-                reviews.append(i.text)
+                page_reviews.append(i.text)
+            print(f"Reviews# {len(page_reviews)}")
+            print(f"Reviews: {page_reviews}")
+            pd_user_reviews.extend(page_reviews)
 
-    print(f"Total reviews: {len(reviews)}")
+            review_disable_button = soup.find("li", {"class": "a-disabled a-last"})
+            print(f"review_disable_button: {review_disable_button}")
+            #  <li class="a-disabled a-last">Next page<span class="a-letter-space"></span><span class="a-letter-space"></span><span class="larr">→</span></li>
+            if review_disable_button or len(page_reviews) == 0 or len(pd_user_reviews) > review_count :
+                break
+            review_page_count += 1
+            time.sleep(2)
+        print(f"pd_user_reviews# {len(pd_user_reviews)}")
